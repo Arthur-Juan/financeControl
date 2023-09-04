@@ -1,3 +1,7 @@
+using Infra.Data.EFCore;
+using IoC;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,14 +11,29 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Dependency Injection
+builder.Services.ConfigureDependencies(configuration: builder.Configuration);
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+//RUN MIGRATIONS
+
+// Migrate latest database changes during startup
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var dbContext = scope.ServiceProvider
+        .GetRequiredService<AppDbContext>();
+    
+    // Here is the migration executed
+    dbContext.Database.Migrate();
 }
+
+// Configure the HTTP request pipeline.
+
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseHttpsRedirection();
 
