@@ -135,4 +135,6 @@ public class RegisterTest
         var result = await sut.RegisterAsync(dto: dto);
         Assert.Equal("tokenTest", result.Token);
     }
+    
+    
 }
