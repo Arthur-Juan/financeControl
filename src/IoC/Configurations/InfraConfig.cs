@@ -1,4 +1,6 @@
-﻿using Infra.Data.EFCore;
+﻿using Domain.Interfaces;
+using Infra.Data.EFCore;
+using Infra.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +17,8 @@ public static class InfraConfig
             
             opt.UseNpgsql(conn);
         });
+
+        services.AddScoped<ICryptoService, BcryptAdapter>();
     }
     
 }

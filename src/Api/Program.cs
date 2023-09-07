@@ -1,3 +1,4 @@
+using Api.Extensions;
 using Infra.Data.EFCore;
 using IoC;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,7 @@ using (var scope = app.Services.CreateScope())
 
 // Configure the HTTP request pipeline.
 
+app.StartErrorHandling();
 
 app.UseSwagger();
 app.UseSwaggerUI();
@@ -42,3 +44,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program
+{
+    
+}

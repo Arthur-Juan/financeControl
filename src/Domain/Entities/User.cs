@@ -1,4 +1,5 @@
 ﻿using Domain.Enum;
+using Domain.Errors;
 
 namespace Domain.Entities;
 
@@ -9,6 +10,29 @@ public class User : BaseEntity
     public string? Email { get; set; }
     public string? Password { get; set; }
     public List<Department>? Departments { get; set; }
+
+    public User()
+    {
+        Departments ??= new List<Department>();
+    }
+
+    public User(string firstName, string lastName, string email, string password)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        Email = email;
+        Password = password;
+    }
+
+    public bool SetPassword(string? password)
+    {
+        if (password == null)
+        {
+            return false;
+        }
+        Password = password;
+        return true;
+    }
 }
 
 public class Role : BaseEntity

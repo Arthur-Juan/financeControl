@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "src\Api\Api.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoC", "src\IoC\IoC.csproj", "{2E6A7B52-B7B3-47CB-97F5-C72B4BC41A70}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "tests\tests.csproj", "{D4D83646-5A25-4B44-A676-AE8FB11A7054}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{2E6A7B52-B7B3-47CB-97F5-C72B4BC41A70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E6A7B52-B7B3-47CB-97F5-C72B4BC41A70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E6A7B52-B7B3-47CB-97F5-C72B4BC41A70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4D83646-5A25-4B44-A676-AE8FB11A7054}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4D83646-5A25-4B44-A676-AE8FB11A7054}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4D83646-5A25-4B44-A676-AE8FB11A7054}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4D83646-5A25-4B44-A676-AE8FB11A7054}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FFE09FD5-885B-4A8E-A036-B19BD32406B9} = {EE2A055C-C00A-412A-9CB4-887C1E7888E3}
