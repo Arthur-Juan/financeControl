@@ -9,5 +9,6 @@ public static class ConfigureApplication
     public static void Configure(IServiceCollection serviceCollection)
     {
         serviceCollection.AddScoped<IRegisterUser, RegisterUser>();
+        serviceCollection.AddScoped<ILoginUser, LoginUser>();
     }
 }

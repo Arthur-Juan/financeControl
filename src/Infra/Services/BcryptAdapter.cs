@@ -8,4 +8,9 @@ public class BcryptAdapter : ICryptoService
     {
         return BCrypt.Net.BCrypt.HashPassword(text);
     }
+
+    public bool ValidateHash(string text, string hash)
+    {
+        return BCrypt.Net.BCrypt.Verify(text, hash);
+    }
 }
