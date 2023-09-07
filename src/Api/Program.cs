@@ -1,7 +1,10 @@
 using Api.Extensions;
 using Infra.Data.EFCore;
 using IoC;
+using IoC.Configurations;
 using Microsoft.EntityFrameworkCore;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,7 @@ builder.Services.AddSwaggerGen();
 
 //Dependency Injection
 builder.Services.ConfigureDependencies(configuration: builder.Configuration);
+builder.Services.AddJwt(configuration: builder.Configuration);
 
 var app = builder.Build();
 

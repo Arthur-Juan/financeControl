@@ -33,6 +33,11 @@ public class User : BaseEntity
         Password = password;
         return true;
     }
+
+    public string GetFullName()
+    {
+        return $"{FirstName} {LastName}";
+    }
 }
 
 public class Role : BaseEntity
