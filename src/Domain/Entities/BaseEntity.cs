@@ -5,8 +5,7 @@ public abstract class BaseEntity
     protected BaseEntity(){}
     
     public Guid Id { get; protected set; }
-    public DateTimeOffset CreatedAt { get; set; }
-    public DateTimeOffset UpdatedAt { get; set; }
-    public DateTimeOffset DeletedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
 }
