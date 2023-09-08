@@ -20,14 +20,13 @@ public class RegisterTest
 
     public RegisterTest()
     {
-        _sut = new RegisterUser(_crypto, _tokenService, _userRepository);
+        _sut = new RegisterUser(_crypto, _tokenService, _unitOfWork);
     }
     
     private readonly IRegisterUser _sut;
     private readonly ICryptoService _crypto = new BcryptAdapter();
     private readonly ITokenService _tokenService = Substitute.For<ITokenService>();
-    private readonly IUserRepository _userRepository = Substitute.For<IUserRepository>();
-        
+    private readonly IUnitOfWork _unitOfWork = Substitute.For<IUnitOfWork>();
 
     [Theory]
     [InlineData("", "test", "teste@email.com", "pass", "pass")]
@@ -95,9 +94,8 @@ public class RegisterTest
             email: "exists@email.com",
             password: "myPass"
             );
-        var fakeRepo = Substitute.For<IUserRepository>();
-        fakeRepo.GetUserByEmailAsync(dto.Email).Returns(user);
-        var sut = new RegisterUser(_crypto, _tokenService, fakeRepo);
+        _unitOfWork.UserRepository.GetUserByEmailAsync(dto.Email).Returns(user);
+        var sut = new RegisterUser(_crypto, _tokenService, _unitOfWork);
         
         await Assert.ThrowsAsync<BadArgumentException>(async () =>
         {
@@ -127,11 +125,11 @@ public class RegisterTest
 
         var fakeRepo = Substitute.For<IUserRepository>();
        
-        fakeRepo
+        _unitOfWork.UserRepository
             .GetUserByEmailAsync(dto.Email)
             .ReturnsNull();
 
-        var sut = new RegisterUser(fakeCrypto, fakeToken, fakeRepo);
+        var sut = new RegisterUser(fakeCrypto, fakeToken, _unitOfWork);
         var result = await sut.RegisterAsync(dto: dto);
         Assert.Equal("tokenTest", result.Token);
     }
