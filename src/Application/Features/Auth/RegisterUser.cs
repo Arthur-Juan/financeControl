@@ -13,14 +13,14 @@ namespace Application.Features.Auth;
 
 public class RegisterUser : IRegisterUser
 {
-    private readonly IUserRepository _userRepository;
     private readonly ICryptoService _crypto;
     private readonly ITokenService _tokenService;
-    public RegisterUser(ICryptoService crypto, ITokenService tokenService, IUserRepository userRepository)
+    private readonly IUnitOfWork _unitOfWork;
+    public RegisterUser(ICryptoService crypto, ITokenService tokenService, IUnitOfWork unitOfWork)
     {
         _crypto = crypto;
         _tokenService = tokenService;
-        _userRepository = userRepository;
+        _unitOfWork = unitOfWork;
     }
     public async Task<UserLoggedDto> RegisterAsync(UserRegisterDto dto)
     {
@@ -35,7 +35,7 @@ public class RegisterUser : IRegisterUser
 
         }
 
-        var userAlreadyExists = await _userRepository.GetUserByEmailAsync(dto.Email);
+        var userAlreadyExists = await _unitOfWork.UserRepository.GetUserByEmailAsync(dto.Email);
         if (userAlreadyExists is not null)
         {
             throw new BadArgumentException(DomainErrors.User.EmailInUse);
@@ -44,8 +44,8 @@ public class RegisterUser : IRegisterUser
         var hash = _crypto.Encrypt(dto.Password);
         var userEntity = UserRegisterDto.MapToEntity(dto, hash);
 
-        await _userRepository.AddAsync(userEntity);
-        
+        await _unitOfWork.UserRepository.AddAsync(userEntity);
+        await _unitOfWork.Commit();
         var token = _tokenService.GenerateToken(userEntity);
         var result = UserLoggedDto.MapFromEntity(userEntity, token);
         return result;

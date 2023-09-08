@@ -1,14 +1,15 @@
 ﻿using Domain.Entities;
+using Domain.Errors;
 using Domain.Interfaces.Repositories;
 using Infra.Data.EFCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Data;
 
-public class UserRepository : IUserRepository
+public class UserRepository : Repository<User>, IUserRepository
 {
     private readonly AppDbContext _context;
-    public UserRepository(AppDbContext dbContext)
+    public UserRepository(AppDbContext dbContext) : base(dbContext)
     {
         _context = dbContext;
     }
@@ -19,10 +20,4 @@ public class UserRepository : IUserRepository
             .FirstOrDefaultAsync( x => x!.Email == email);
     }
 
-    public async Task AddAsync(User entity)
-    {
-        await _context.Users.AddAsync(entity);
-        await _context.SaveChangesAsync();
-
-    }
 }

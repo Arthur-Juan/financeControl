@@ -1,9 +1,9 @@
 ﻿using Domain.Entities;
+using Domain.Errors;
 
 namespace Domain.Interfaces.Repositories;
 
-public interface IUserRepository
+public interface IUserRepository : IRepository<User>
 {
     Task<User?> GetUserByEmailAsync(string email);
-    Task AddAsync(User entity);
 }

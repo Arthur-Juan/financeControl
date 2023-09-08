@@ -23,6 +23,7 @@ public static class InfraConfig
 
         services.AddScoped<ICryptoService, BcryptAdapter>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 
     private static void ConfigureJwt(IServiceCollection serviceCollection, IConfiguration configuration)

@@ -10,14 +10,14 @@ namespace Application.Features.Auth;
 
 public class LoginUser : ILoginUser
 {
-    private readonly IUserRepository _userRepository;
     private readonly ITokenService _tokenService;
     private readonly ICryptoService _cryptoService;
-    public LoginUser(IUserRepository userRepository, ITokenService tokenService, ICryptoService cryptoService)
+    private readonly IUnitOfWork _unitOfWork;
+    public LoginUser(ITokenService tokenService, ICryptoService cryptoService, IUnitOfWork unitOfWork)
     {
-        _userRepository = userRepository;
         _tokenService = tokenService;
         _cryptoService = cryptoService;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<UserLoggedDto> LoginAsync(UserLoginDto dto)
@@ -31,7 +31,7 @@ public class LoginUser : ILoginUser
          throw new BadArgumentException(error.ErrorMessage);
         }
 
-        var userExists = await _userRepository.GetUserByEmailAsync(dto.Email);
+        var userExists = await _unitOfWork.UserRepository.GetUserByEmailAsync(dto.Email);
         
         if (userExists == null)
         {
