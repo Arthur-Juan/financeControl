@@ -1,4 +1,6 @@
 ﻿
+using System.Security.Cryptography.X509Certificates;
+
 namespace Domain.Errors;
 
 public static class DomainErrors
@@ -17,5 +19,10 @@ public static class DomainErrors
         public const  string PasswordDontMatch = "Password dont match";
         public const string EmailInUse = "Email already in use";
         public const string InvalidCredentials = "Invalid Credentials";
+    }
+    
+    public static class Department
+    {
+        public const string UserNotFound = "User not found";
     }
 }

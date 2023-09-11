@@ -20,6 +20,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         
         builder.HasIndex(x => x.Email).IsUnique();
 
+        builder.HasMany<Department>(x => x.DepartmentOwner)
+            .WithOne(x => x.Owner)
+            .HasForeignKey("FK_Department_Owned");
     }
 }
 public class SpentConfiguration : IEntityTypeConfiguration<Spent>

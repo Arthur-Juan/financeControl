@@ -1,6 +1,8 @@
-﻿namespace Domain.Interfaces.Repositories;
+﻿using Domain.Entities;
 
-public class IDepartmentRepository
+namespace Domain.Interfaces.Repositories;
+
+public interface IDepartmentRepository : IRepository<Department>
 {
     
 }

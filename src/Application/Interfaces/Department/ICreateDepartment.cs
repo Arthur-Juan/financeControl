@@ -1,6 +1,9 @@
-﻿namespace Application.Interfaces.Department;
+﻿using Application.DTO.Request;
+using Application.DTO.Response;
 
-public class ICreateDepartment
+namespace Application.Interfaces.Department;
+
+public interface ICreateDepartment
 {
-    
+    Task<DepartmentDto> CreateAsync(DepartmentCreateDto dto, Guid userId);
 }

@@ -4,6 +4,7 @@ using Infra.Data.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230911210544_FixConstraint")]
+    partial class FixConstraint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,15 +43,11 @@ namespace Infra.Migrations
             modelBuilder.Entity("Domain.Entities.Department", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<byte[]>("CreatedAt")
                         .IsRequired()
                         .HasColumnType("timestamp");
-
-                    b.Property<Guid?>("FK_Department_Owned")
-                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
@@ -61,8 +60,6 @@ namespace Infra.Migrations
                         .HasColumnType("timestamp");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FK_Department_Owned");
 
                     b.ToTable("Departments");
                 });
@@ -208,8 +205,11 @@ namespace Infra.Migrations
             modelBuilder.Entity("Domain.Entities.Department", b =>
                 {
                     b.HasOne("Domain.Entities.User", "Owner")
-                        .WithMany("DepartmentOwner")
-                        .HasForeignKey("FK_Department_Owned");
+                        .WithOne("DepartmentOwner")
+                        .HasForeignKey("Domain.Entities.Department", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Departments_Owner");
 
                     b.Navigation("Owner");
                 });
@@ -250,7 +250,8 @@ namespace Infra.Migrations
 
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
-                    b.Navigation("DepartmentOwner");
+                    b.Navigation("DepartmentOwner")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

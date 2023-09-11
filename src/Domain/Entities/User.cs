@@ -10,6 +10,7 @@ public class User : BaseEntity
     public string? Email { get; set; }
     public string? Password { get; set; }
     public List<Department>? Departments { get; set; }
+    public List<Department> DepartmentOwner { get; set; }
 
     public User()
     {
@@ -37,6 +38,12 @@ public class User : BaseEntity
     public string GetFullName()
     {
         return $"{FirstName} {LastName}";
+    }
+
+    public void AddNewDepartmentOwned(Department department)
+    {
+        DepartmentOwner ??= new List<Department>();
+        Departments?.Add(department);
     }
 }
 

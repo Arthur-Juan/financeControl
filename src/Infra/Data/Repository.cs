@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Data;
 
-public class Repository<T> : IRepository<T> where T : class, new()
+public class Repository<T> : IRepository<T> where T : class
 {
     private readonly AppDbContext _context;
 

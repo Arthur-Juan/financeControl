@@ -19,13 +19,19 @@ public class UnitOfWork : IUnitOfWork
     #region repositories
 
     private IUserRepository _userRepository;
-    public IUserRepository UserRepository => _userRepository ?? new UserRepository(_context);
+    public IUserRepository UserRepository => 
+        _userRepository ?? new UserRepository(_context);
+
+    private IDepartmentRepository _departmentRepository;
+    public IDepartmentRepository DepartmentRepository => 
+        _departmentRepository ?? new DepartmentRepository(_context);
     
     #endregion
 
 
-    public Task<bool> Commit()
+    public async Task<bool> Commit()
     {
-        throw new NotImplementedException();
+         await _context.SaveChangesAsync();
+         return true;
     }
 }
