@@ -29,17 +29,12 @@ public class Department : BaseEntity
         }
     }
 
-    public Department()
-    {
-        throw new NotImplementedException();
-    }
-
 
     public void Slugify()
     {
         
             // Remove special characters, replace spaces with hyphens, and convert to lowercase
-            string slug = Name.Trim()
+            var slug = Name?.Trim()
                 .ToLower()
                 .Replace(" ", "-")
                 .Replace("ä", "ae")
@@ -58,7 +53,7 @@ public class Department : BaseEntity
     }
     
     
-    private string RemoveDiacritics(string text)
+    private string RemoveDiacritics(string? text)
     {
         var normalized = text.Normalize(NormalizationForm.FormKD);
         var removal = Encoding.GetEncoding(Encoding.ASCII.CodePage,

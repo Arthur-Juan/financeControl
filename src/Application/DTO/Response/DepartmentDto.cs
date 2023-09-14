@@ -1,36 +1,44 @@
-﻿using Domain.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Domain.Entities;
 
-namespace Application.DTO.Response;
-
-public record DepartmentDto(
-    Guid Id,
-    string? Name,
-    List<SectorDto>? Sectors,
-    Guid? UserId
-)
+namespace Application.DTO.Response
 {
-    public static DepartmentDto MapFromEntity(Department entity)
+    public record DepartmentDto(
+        Guid Id,
+        string? Name,
+        List<SectorDto>? Sectors,
+        Guid? UserId
+    )
     {
-        var sectors = (from sector in entity?.Sectors select SectorDto.MapFromEntity(sector)).ToList();
-        return new DepartmentDto(
-            entity.Id,
-            entity?.Name,
-            sectors,
-            entity?.Owner.Id);
+        public static DepartmentDto MapFromEntity(Department entity)
+        {
+            Guid? ownerId = entity?.Owner?.Id;
+
+            List<SectorDto>? sectors = entity?.Sectors?.Select(sector => SectorDto.MapFromEntity(sector)).ToList();
+
+            return new DepartmentDto(
+                entity.Id,
+                entity?.Name,
+                sectors,
+                ownerId
+            );
+        }
     }
-    
-}
 
-public record UserDto(
-    Guid Id);
+    public record UserDto(
+        Guid Id
+    );
 
-public record SectorDto(
-    Guid Id,
-    string? Name
-)
-{
-    public static SectorDto MapFromEntity(Sector entity)
+    public record SectorDto(
+        Guid Id,
+        string? Name
+    )
     {
-        return new SectorDto(entity.Id ,entity?.Name);
+        public static SectorDto MapFromEntity(Sector entity)
+        {
+            return new SectorDto(entity.Id, entity?.Name);
+        }
     }
 }

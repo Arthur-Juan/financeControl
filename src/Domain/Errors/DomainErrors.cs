@@ -24,5 +24,6 @@ public static class DomainErrors
     public static class Department
     {
         public const string UserNotFound = "User not found";
+        public const string AlreadyExists = "A department with this name already exists";
     }
 }

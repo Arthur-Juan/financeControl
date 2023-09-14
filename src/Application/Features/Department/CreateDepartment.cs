@@ -28,14 +28,22 @@ public class CreateDepartment : ICreateDepartment
         
         var entity = DepartmentCreateDto.MapToEntity(dto);
         var user = await _unitOfWork.UserRepository.GetByIdAsync(userId);
+        entity.Slugify();
+
+        var departmentAlreadyExists = await _unitOfWork.DepartmentRepository.GetBySlugAsync(entity.Slug);
+        if (departmentAlreadyExists != null)
+        {
+            throw new BadArgumentException(DomainErrors.Department.AlreadyExists);
+        }
         
         if (!entity.SetOwner(user))
         {
             throw new NotFoundException(DomainErrors.Department.UserNotFound);
         }
-
+        
         user?.AddNewDepartmentOwned(entity);
         await _unitOfWork.DepartmentRepository.AddAsync(entity);
+
         _unitOfWork.UserRepository.Update(user);
         
         await _unitOfWork.Commit();
